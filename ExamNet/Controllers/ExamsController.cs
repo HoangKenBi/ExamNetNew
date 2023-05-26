@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExamNet.entities;
 
-
 namespace ExamNet.Controllers
 {
     public class ExamsController : Controller
@@ -50,7 +49,7 @@ namespace ExamNet.Controllers
         // GET: Exams/Create
         public IActionResult Create()
         {
-            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name");
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Id");
             ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name");
             ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name");
             return View();
@@ -69,7 +68,7 @@ namespace ExamNet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name", exam.classesId);
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Id", exam.classesId);
             ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name", exam.facultysId);
             ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name", exam.subjectsId);
             return View(exam);
@@ -88,7 +87,7 @@ namespace ExamNet.Controllers
             {
                 return NotFound();
             }
-            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name", exam.classesId);
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Id", exam.classesId);
             ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name", exam.facultysId);
             ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name", exam.subjectsId);
             return View(exam);
@@ -126,7 +125,7 @@ namespace ExamNet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name", exam.classesId);
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Id", exam.classesId);
             ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name", exam.facultysId);
             ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name", exam.subjectsId);
             return View(exam);
@@ -167,14 +166,14 @@ namespace ExamNet.Controllers
             {
                 _context.exams.Remove(exam);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ExamExists(int id)
         {
-            return (_context.exams?.Any(e => e.ExamId == id)).GetValueOrDefault();
+          return (_context.exams?.Any(e => e.ExamId == id)).GetValueOrDefault();
         }
     }
 }

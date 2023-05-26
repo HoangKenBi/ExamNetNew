@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-var connectionString = builder.Configuration.GetConnectionString("PRACTICAL_EXAM_NET");
+var connectionString = builder.Configuration.GetConnectionString("t2203e");
 builder.Services.AddDbContext<DataContext>(
     options => options.UseSqlServer(connectionString));
 var app = builder.Build();

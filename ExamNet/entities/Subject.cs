@@ -2,6 +2,7 @@
 
 namespace ExamNet.entities
 {
+
     public class Subject
     {
         public int Id { get; set; }
