@@ -7,8 +7,6 @@ namespace ExamNet.entities
         [Key]
         public int ExamId { get; set; }
 
-        [Required(ErrorMessage = "The ExamSubject field is required.")]
-        [StringLength(255, ErrorMessage = "The ExamSubject field must be a string with a maximum length of 255.")]
         public string ExamSubject { get; set; }
 
         [DataType(DataType.Time)]

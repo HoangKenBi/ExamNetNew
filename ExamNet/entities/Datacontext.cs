@@ -7,6 +7,9 @@ namespace ExamNet.entities
         public Datacontext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Exam> Exam { get; set; }
+        public DbSet<Class> Class { get; set; }
+        public DbSet<Subject> Subject { get; set; }
+        public DbSet<Faculty> Faculty { get; set; }
     }
 }
