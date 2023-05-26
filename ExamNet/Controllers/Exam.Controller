@@ -1,6 +1,0 @@
-﻿namespace ExamNet.Controllers
-{
-    public class Exam
-    {
-    }
-}

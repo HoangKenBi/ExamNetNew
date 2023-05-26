@@ -1,26 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ExamNet.entities
 {
-    public class Exam
+    public partial class Exam
     {
-        [Key]
-        public int ExamId { get; set; }
+        public int Id { get; set; }
 
-        public string ExamSubject { get; set; }
+        public DateTime StartTime { get; set; }
 
-        [DataType(DataType.Time)]
-        public TimeOnly StartTime { get; set; }
-
-        [DataType(DataType.Date)]
-        [Display(Name = "Exam Date")]
         public DateTime ExamDate { get; set; }
 
-        [DataType(DataType.Time)]
-        [Display(Name = "Exam Duration")]
-        public TimeSpan ExamDuration { get; set; }
+        public int ExamDuration { get; set; }
 
-        public string Classroom { get; set; }
-        public string Faculty { get; set; }
+        public int? ClassId { get; set; }
+
+        public int? SubjectId { get; set; }
+
+        public int? FacultyId { get; set; }
+
+        public string? Status { get; set; }
+
+        public virtual Class? Class { get; set; }
+
+        public virtual Faculty? Faculty { get; set; }
+
+        public virtual Subject? Subject { get; set; }
     }
 }

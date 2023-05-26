@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ExamNet.entities
 {
@@ -6,8 +7,8 @@ namespace ExamNet.entities
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The ExamSubject field is required.")]
-        [StringLength(255, ErrorMessage = "The ExamSubject field must be a string with a maximum length of 255.")]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
+
+        public virtual ICollection<Exam> Exams { get; set; } = new List<Exam>();
     }
 }
