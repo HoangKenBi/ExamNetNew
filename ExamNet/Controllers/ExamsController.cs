@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ExamNet.entities;
-using PExamNet.entities;
+
 
 namespace ExamNet.Controllers
 {
@@ -22,7 +22,7 @@ namespace ExamNet.Controllers
         // GET: Exams
         public async Task<IActionResult> Index()
         {
-            var dataContext = _context.exams.Include(e => e.Class).Include(e => e.Faculty).Include(e => e.Subject);
+            var dataContext = _context.exams.Include(e => e.classes).Include(e => e.facultys).Include(e => e.subjects);
             return View(await dataContext.ToListAsync());
         }
 
@@ -35,10 +35,10 @@ namespace ExamNet.Controllers
             }
 
             var exam = await _context.exams
-                .Include(e => e.Class)
-                .Include(e => e.Faculty)
-                .Include(e => e.Subject)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(e => e.classes)
+                .Include(e => e.facultys)
+                .Include(e => e.subjects)
+                .FirstOrDefaultAsync(m => m.ExamId == id);
             if (exam == null)
             {
                 return NotFound();
@@ -50,9 +50,9 @@ namespace ExamNet.Controllers
         // GET: Exams/Create
         public IActionResult Create()
         {
-            ViewData["ClassId"] = new SelectList(_context.classes, "Id", "Id");
-            ViewData["FacultyId"] = new SelectList(_context.faculty, "Id", "Id");
-            ViewData["SubjectId"] = new SelectList(_context.subject, "Id", "Id");
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name");
+            ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name");
+            ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name");
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace ExamNet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StartTime,ExamDate,ExamDuration,ClassId,SubjectId,FacultyId,Status")] Exam exam)
+        public async Task<IActionResult> Create([Bind("ExamId,StartTime,ExamDate,ExamDuration,classesId,facultysId,subjectsId,status")] Exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -69,9 +69,9 @@ namespace ExamNet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassId"] = new SelectList(_context.classes, "Id", "Id", exam.ClassId);
-            ViewData["FacultyId"] = new SelectList(_context.faculty, "Id", "Id", exam.FacultyId);
-            ViewData["SubjectId"] = new SelectList(_context.subject, "Id", "Id", exam.SubjectId);
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name", exam.classesId);
+            ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name", exam.facultysId);
+            ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name", exam.subjectsId);
             return View(exam);
         }
 
@@ -88,9 +88,9 @@ namespace ExamNet.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClassId"] = new SelectList(_context.classes, "Id", "Id", exam.ClassId);
-            ViewData["FacultyId"] = new SelectList(_context.faculty, "Id", "Id", exam.FacultyId);
-            ViewData["SubjectId"] = new SelectList(_context.subject, "Id", "Id", exam.SubjectId);
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name", exam.classesId);
+            ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name", exam.facultysId);
+            ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name", exam.subjectsId);
             return View(exam);
         }
 
@@ -99,9 +99,9 @@ namespace ExamNet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartTime,ExamDate,ExamDuration,ClassId,SubjectId,FacultyId,Status")] Exam exam)
+        public async Task<IActionResult> Edit(int id, [Bind("ExamId,StartTime,ExamDate,ExamDuration,classesId,facultysId,subjectsId,status")] Exam exam)
         {
-            if (id != exam.Id)
+            if (id != exam.ExamId)
             {
                 return NotFound();
             }
@@ -115,7 +115,7 @@ namespace ExamNet.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExamExists(exam.Id))
+                    if (!ExamExists(exam.ExamId))
                     {
                         return NotFound();
                     }
@@ -126,9 +126,9 @@ namespace ExamNet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassId"] = new SelectList(_context.classes, "Id", "Id", exam.ClassId);
-            ViewData["FacultyId"] = new SelectList(_context.faculty, "Id", "Id", exam.FacultyId);
-            ViewData["SubjectId"] = new SelectList(_context.subject, "Id", "Id", exam.SubjectId);
+            ViewData["classesId"] = new SelectList(_context.classes, "Id", "Name", exam.classesId);
+            ViewData["facultysId"] = new SelectList(_context.faculty, "Id", "Name", exam.facultysId);
+            ViewData["subjectsId"] = new SelectList(_context.subject, "Id", "Name", exam.subjectsId);
             return View(exam);
         }
 
@@ -141,10 +141,10 @@ namespace ExamNet.Controllers
             }
 
             var exam = await _context.exams
-                .Include(e => e.Class)
-                .Include(e => e.Faculty)
-                .Include(e => e.Subject)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(e => e.classes)
+                .Include(e => e.facultys)
+                .Include(e => e.subjects)
+                .FirstOrDefaultAsync(m => m.ExamId == id);
             if (exam == null)
             {
                 return NotFound();
@@ -167,14 +167,14 @@ namespace ExamNet.Controllers
             {
                 _context.exams.Remove(exam);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ExamExists(int id)
         {
-          return (_context.exams?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.exams?.Any(e => e.ExamId == id)).GetValueOrDefault();
         }
     }
 }

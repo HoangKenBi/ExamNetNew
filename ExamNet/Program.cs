@@ -1,14 +1,14 @@
 using ExamNet.entities;
 using Microsoft.EntityFrameworkCore;
-using PExamNet.entities;
+using ExamNet.entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-var connectionString = builder.Configuration.GetConnectionString("t2203e");
+var connectionString = builder.Configuration.GetConnectionString("PRACTICAL_EXAM_NET");
 builder.Services.AddDbContext<DataContext>(
-        options => options.UseSqlServer(connectionString));
+    options => options.UseSqlServer(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

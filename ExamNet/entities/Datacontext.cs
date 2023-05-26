@@ -1,7 +1,7 @@
 ﻿using ExamNet.entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace PExamNet.entities
+namespace ExamNet.entities
 {
     public class DataContext : DbContext
     {

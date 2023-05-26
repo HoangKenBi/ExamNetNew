@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ExamNet.entities
 {
-    public partial class Faculty
+    public class Faculty
     {
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
-
-        public virtual ICollection<Exam> Exams { get; set; } = new List<Exam>();
+        [Required(ErrorMessage = "Faculty khong duoc de trong")]
+        [StringLength(255, ErrorMessage = "ExamSubject phải là một chuỗi có độ dài tối đa là 255.")]
+        public string Name { get; set; }
+        public virtual ICollection<Exam> exams { get; set; } = new List<Exam>();
     }
 }
